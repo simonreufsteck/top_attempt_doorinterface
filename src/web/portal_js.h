@@ -10,6 +10,19 @@ function showOverlay(text) {
 }
 function hideOverlay() { $('overlay').classList.add('hidden'); }
 
+(async () => {
+  try { const r = await fetch('/config'); const c = await r.json(); if (c.hostname) $('hostnameField').value = c.hostname; } catch(e){}
+})();
+
+async function copyText(text) {
+  try { if (navigator.clipboard && window.isSecureContext) { await navigator.clipboard.writeText(text); return true; } } catch(e){}
+  const ta = document.createElement('textarea'); ta.value = text;
+  ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.select();
+  let ok = false; try { ok = document.execCommand('copy'); } catch(e){}
+  document.body.removeChild(ta); return ok;
+}
+
 $('scanBtn').onclick = async () => {
   const b = $('scanBtn'); b.disabled = true;
   showOverlay('suche Netzwerke ...');
@@ -45,8 +58,21 @@ async function pollStatus() {
     $('status').textContent = 'verbinde ...';
     setTimeout(pollStatus, 1000);
   } else if (s.state === 'connected') {
-    hideOverlay();
-    $('status').innerHTML = 'Verbunden! Erreichbar unter <a href="http://' + s.ip + '">http://' + s.ip + '</a>';
+    const addr = 'http://' + s.ip;
+    showOverlay('Verbunden! Neue Adresse: ' + addr);
+    const sp = document.querySelector('#overlay .spinner');
+    if (sp) sp.style.display = 'none';
+    if (!$('finishBtn')) {
+      const b = document.createElement('button'); b.id = 'finishBtn';
+      b.textContent = 'Adresse kopieren & Setup beenden';
+      b.onclick = async () => {
+        await copyText(addr);
+        $('overlayText').textContent = 'Kopiert – AP wird geschlossen …';
+        b.disabled = true;
+        try { await fetch('/close', { method:'POST' }); } catch(e) {}
+      };
+      $('overlay').appendChild(b);
+    }
   } else if (s.state === 'failed') {
     hideOverlay();
     $('status').textContent = 'Verbindung fehlgeschlagen — bitte erneut versuchen.';

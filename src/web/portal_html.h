@@ -26,6 +26,9 @@ const char PORTAL_HTML[] PROGMEM = R"HTML(
     <label>Passwort
       <input type="password" name="pass">
     </label>
+    <label>Gerätename
+      <input type="text" name="hostname" id="hostnameField" placeholder="z. B. door-eingang">
+    </label>
     <button type="submit" id="saveBtn">Speichern &amp; Verbinden</button>
   </form>
   <div id="status"></div>

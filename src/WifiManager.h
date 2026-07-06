@@ -14,12 +14,15 @@ public:
     void loop();
     bool isConnected();
     bool isApActive();
+    String getHostname() { return _hostname; }
+    bool setHostname(const String& hostname);
 
 private:
     Preferences _prefs;
     bool _apActive = false;
     String _ssid;
     String _pass;
+    String _hostname;
 
     DNSServer _dns;
     WebServer _server{80};
@@ -30,12 +33,15 @@ private:
     const unsigned long _connectTimeout = 15000;
     unsigned long _connectedAt = 0;
     const unsigned long _apOffDelay = 30000;
+    bool _shutdownRequested = false;
 
     void loadCredentials();
+    void loadHostname();
     bool tryConnect();
     void startFallbackAp();
     void startPortal();
     void pollConnect();
+    void shutdownAp();
 
     void handleRoot();
     void handleCss();
@@ -43,5 +49,7 @@ private:
     void handleScan();
     void handleSave();
     void handleStatus();
+    void handleConfig();
     void handleRedirect();
+    void handleClose();
 };
