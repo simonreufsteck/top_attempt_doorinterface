@@ -20,6 +20,8 @@ dd { margin: 0; }
 .muted { color: #6a737d; }
 .btn { display: inline-block; margin-top: 0.5em; padding: 0.5em 0.9em; background: #2c3e50; color: #fff; text-decoration: none; border: none; border-radius: 4px; cursor: pointer; }
 .btn:active { opacity: 0.7; }
+.btn:disabled { opacity: 0.5; cursor: default; }
+.btn-row { display: flex; gap: 0.5em; margin-top: 0.5em; }
 .icon { font-size: 1.4em; background: none; border: none; cursor: pointer; color: #2c3e50; }
 .menu { position: relative; }
 .menu-list { position: absolute; right: 0; top: 100%; background: #fff; border: 1px solid #e1e4e8; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); min-width: 160px; display: flex; flex-direction: column; z-index: 20; }

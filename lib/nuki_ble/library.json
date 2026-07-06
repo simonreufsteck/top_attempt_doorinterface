@@ -1,0 +1,22 @@
+{
+  "name": "NukiBleEsp",
+  "version": "2.0.0",
+  "description": "Control Nuki smartlock via BLE from esp32",
+  "keywords": "nuki ble esp32",
+  "authors": [
+    {
+      "name": "Jeroen van de Vorst",
+      "maintainer": true
+    },
+    {
+      "name": "Bas Schouten"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AzonInc/NukiBleEsp32.git"
+  },
+  "build": {
+    "flags": "-Wno-unused-function"
+  }
+}
